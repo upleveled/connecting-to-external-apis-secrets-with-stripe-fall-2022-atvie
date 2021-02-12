@@ -1,6 +1,7 @@
 import { loadStripe } from '@stripe/stripe-js';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { Product } from '../components/Product';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -51,6 +52,8 @@ export default function Home() {
         <title>Stripe Test</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Product />
+
       <input
         type="number"
         value={itemQuantity}
