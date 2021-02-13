@@ -1,4 +1,12 @@
-export function Product() {
+import { useState } from 'react';
+import { Counter } from './Counter';
+
+export function Product({ clickHandler, productPrice }) {
+  const [quantity, setQuantity] = useState(1);
+  const currencySymbol = {
+    eur: '€',
+    us: '$',
+  };
   return (
     <div>
       <h1>product</h1>
@@ -8,6 +16,14 @@ export function Product() {
         width="140"
         height="160"
       />
+      {currencySymbol[productPrice.currency]}
+      {productPrice.unitAmount / 100}
+      <Counter currentValue={quantity} newValueSetter={setQuantity} />
+      <button
+        onClick={() => clickHandler('payment', productPrice.priceId, quantity)}
+      >
+        checkout
+      </button>
     </div>
   );
 }

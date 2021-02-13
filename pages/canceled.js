@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 
 export default function Canceled() {
@@ -10,6 +11,9 @@ export default function Canceled() {
       </Head>
 
       <h1 className={styles.title}>This is a canceled test</h1>
+      <Link href="/">
+        <a>home</a>
+      </Link>
     </div>
   );
 }

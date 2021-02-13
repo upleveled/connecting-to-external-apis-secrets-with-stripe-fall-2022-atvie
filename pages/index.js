@@ -1,66 +1,76 @@
 import { loadStripe } from '@stripe/stripe-js';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 import { Product } from '../components/Product';
-import styles from '../styles/Home.module.css';
+import { Subscription } from '../components/Subscription';
 
-export default function Home() {
-  const [publicIdKey, setPublicIdKey] = useState();
-  const [stripe, setStripe] = useState();
-  const [itemQuantity, setItemQuantity] = useState(1);
+export default function Home(props) {
+  const stripeLoader = loadStripe(props.publicKey);
 
-  async function configStripe() {
-    const configuredStripe = await loadStripe(publicIdKey);
-    console.log(configuredStripe);
-    setStripe(configuredStripe);
-  }
+  async function handleClick(mode, priceID, quantity = 1) {
+    const stripeClient = await stripeLoader;
 
-  async function handleClick() {
-    const { sessionId } = await fetch('api/create-checkout-session', {
+    const { sessionId } = await fetch('api/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        quantity: itemQuantity,
+        quantity,
+        mode,
+        priceID,
       }),
     }).then((res) => res.json());
 
-    stripe.redirectToCheckout({
+    stripeClient.redirectToCheckout({
       sessionId,
     });
   }
 
-  useEffect(() => {
-    async function fetchId() {
-      const { publicKey } = await fetch('/api').then((res) => res.json());
-
-      setPublicIdKey(publicKey);
-    }
-    fetchId();
-  }, []);
-
-  if (!publicIdKey?.length) return <div>loading...</div>;
-
-  if (!stripe) {
-    configStripe();
-  }
-
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Stripe Test</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Product />
-
-      <input
-        type="number"
-        value={itemQuantity}
-        onChange={(e) => setItemQuantity(e.currentTarget.value)}
+      <Product
+        clickHandler={handleClick}
+        productPrice={props.productPrices[0]}
       />
-      <h1 className={styles.title}>This is a test</h1>
-      <button onClick={handleClick}>checkout</button>
+      <Subscription
+        clickHandler={handleClick}
+        productPrice={props.productPrices[1]}
+      />
+      <p>
+        This is a <span>monospace</span> font
+      </p>
+      <h1>The quick brown</h1>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const Stripe = require('stripe');
+  const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+  const price = await stripeServer.prices.retrieve(process.env.PRICE);
+  const price2 = await stripeServer.prices.retrieve(process.env.PRICE2);
+  const publicKey = process.env.STRIPE_PUBLISHABLE_KEY;
+
+  return {
+    props: {
+      publicKey,
+      productPrices: [
+        {
+          priceId: 'PRICE',
+          unitAmount: price.unit_amount,
+          currency: price.currency,
+        },
+        {
+          priceId: 'PRICE2',
+          unitAmount: price2.unit_amount,
+          currency: price2.currency,
+        },
+      ],
+    },
+  };
 }
