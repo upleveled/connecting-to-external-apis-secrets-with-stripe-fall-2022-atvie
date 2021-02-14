@@ -5,19 +5,16 @@ export function Subscription({ clickHandler, productPrice }) {
   };
   return (
     <div>
-      <h1>monthly subscription</h1>
-      <img
-        alt="Random asset from Picsum"
-        src="https://picsum.photos/280/320?random=3"
-        width="140"
-        height="160"
-      />
-      {currencySymbol[productPrice.currency]}
-      {productPrice.unitAmount / 100}
+      <h1>Subscription Plan</h1>
+      <p>
+        This is a recurring payment <span>product</span>.
+      </p>
+      <img alt="magazine" src="/images/magazine.jpg" />
       <button
         onClick={() => clickHandler('subscription', productPrice.priceId)}
       >
-        subscribe
+        Subscribe for {currencySymbol[productPrice.currency]}{' '}
+        {productPrice.unitAmount / 100} month
       </button>
     </div>
   );

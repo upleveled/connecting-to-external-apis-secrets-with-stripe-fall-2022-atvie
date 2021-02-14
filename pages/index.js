@@ -1,5 +1,4 @@
 import { loadStripe } from '@stripe/stripe-js';
-import Head from 'next/head';
 import { Product } from '../components/Product';
 import { Subscription } from '../components/Subscription';
 
@@ -28,10 +27,6 @@ export default function Home(props) {
 
   return (
     <div>
-      <Head>
-        <title>Stripe Test</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <Product
         clickHandler={handleClick}
         productPrice={props.productPrices[0]}
@@ -40,10 +35,6 @@ export default function Home(props) {
         clickHandler={handleClick}
         productPrice={props.productPrices[1]}
       />
-      <p>
-        This is a <span>monospace</span> font
-      </p>
-      <h1>The quick brown</h1>
     </div>
   );
 }

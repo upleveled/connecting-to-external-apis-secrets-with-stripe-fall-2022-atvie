@@ -1,21 +1,32 @@
-import Head from 'next/head';
 import Link from 'next/link';
-import styles from '../styles/Home.module.css';
 
 export default function Success(props) {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Stripe Test</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <h1 className={styles.title}>This is a success test</h1>
-      <div>{JSON.stringify(props.session, null, 4)}</div>
+    <section>
+      <h1>Successful Transaction</h1>
+      <div>
+        <p>
+          <span>Id:</span>
+          {'   '}
+          {props.session.id}
+        </p>
+        <p>
+          <span> Transaction total:</span> {'   '}
+          {props.session.amount_total}
+        </p>
+        <p>
+          <span> Customer email:</span> {'   '}
+          {props.session.customer_details.email}
+        </p>
+        <p>
+          <span> Payment status:</span> {'   '}
+          {props.session.payment_status}
+        </p>
+      </div>
       <Link href="/">
         <a>home</a>
       </Link>
-    </div>
+    </section>
   );
 }
 

@@ -1,10 +1,18 @@
 export function Counter({ minValue = 1, currentValue, newValueSetter }) {
+  function addCounter() {
+    newValueSetter(currentValue + 1);
+  }
+  function subtractCounter() {
+    if (currentValue === minValue) {
+      return;
+    }
+    newValueSetter(currentValue - 1);
+  }
   return (
-    <input
-      type="number"
-      value={currentValue}
-      onChange={(e) => newValueSetter(e.currentTarget.value)}
-      min={minValue}
-    />
+    <>
+      <button onClick={subtractCounter}>-</button>
+      <span>{currentValue}</span>
+      <button onClick={addCounter}>+</button>
+    </>
   );
 }
