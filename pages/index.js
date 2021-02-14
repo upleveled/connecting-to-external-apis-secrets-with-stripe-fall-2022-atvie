@@ -43,10 +43,10 @@ export async function getServerSideProps() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const Stripe = require('stripe');
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const publicKey = process.env.STRIPE_PUBLISHABLE_KEY;
 
   const price = await stripeServer.prices.retrieve(process.env.PRICE);
   const price2 = await stripeServer.prices.retrieve(process.env.PRICE2);
-  const publicKey = process.env.STRIPE_PUBLISHABLE_KEY;
 
   return {
     props: {
