@@ -1,24 +1,3 @@
-# card examples:
-
-https://stripe.com/docs/testing#cards
-
-# api links
-
-https://stripe.com/docs/api
-
-- prepare order to present and code.
-
-  - intro API presentation
-  - final app show
-  - code session, assets prepared (css, maybe some components)
-    - clone repo and yar
-    - yarn dev
-    - create account
-    - explain what .env.local does
-    - add api keys
-    - create 2 products with prices, one recurrent and other one time
-    - copy the prices key
-
 # steps
 
 - get keys from stripe:
@@ -26,7 +5,21 @@ https://stripe.com/docs/api
 https://stripe.com/en-at
 
 - keys are under Home -> get your api keys
-- Create a .env.local file from the example file on the project
+- Clone the repo
+- install dependencies
+  ```sh
+  yarn 
+  ```
+- Make sure you are on the right branch
+- Create a `.env.local` file from the `.env.local.example` file on the project
 - add your keys
 
 Happy coding!
+
+# Test card numbers:
+
+https://stripe.com/docs/testing#cards
+
+# api links
+
+https://stripe.com/docs/api
