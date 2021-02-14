@@ -26,4 +26,7 @@ https://stripe.com/docs/api
 https://stripe.com/en-at
 
 - keys are under Home -> get your api keys
--
+- Create a .env.local file from the example file on the project
+- add your keys
+
+Happy coding!
