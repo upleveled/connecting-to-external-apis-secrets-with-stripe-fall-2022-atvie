@@ -1,6 +1,6 @@
 # steps
 
-- get keys from stripe:
+- Create an account and get keys from stripe:
 
 https://stripe.com/en-at
 
