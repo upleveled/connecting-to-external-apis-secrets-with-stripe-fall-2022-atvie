@@ -1,10 +1,5 @@
 https://stripe.com/docs/testing#cards
 
-TODO:
-
-- style all
-- Clean `Counter` component
-
 - prepare order to present and code.
 
   - intro API presentation

@@ -1,7 +1,7 @@
 export function Header() {
   return (
     <header>
-      <h1>UpLeveled</h1>
+      <img src="/images/logo.svg" alt="UpLeveled" />
     </header>
   );
 }

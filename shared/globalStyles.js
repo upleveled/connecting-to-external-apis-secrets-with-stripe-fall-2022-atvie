@@ -91,11 +91,11 @@ const myGlobalStyles = css`
   }
 
   header {
-    background-color: ${mainColor};
-    h1 {
-      color: white;
-      margin: 0 5vw;
-      font-size: 3em;
+    margin-bottom: 10px;
+    img {
+      padding: 5px 10px;
+      box-shadow: none;
+      margin: 2vw 15vw;
     }
   }
 
@@ -171,7 +171,6 @@ const myGlobalStyles = css`
     width: 80vw;
     margin: 0 auto;
     min-height: 70vh;
-    margin-top: 10vh;
     border-radius: 5px;
 
     h1 {
@@ -226,7 +225,7 @@ export const globalStyles = (
     <Global styles={myGlobalStyles} />
     <Head>
       <title>UpLeveled - stripe</title>
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/images/logo.png" />
     </Head>
   </>
 );
