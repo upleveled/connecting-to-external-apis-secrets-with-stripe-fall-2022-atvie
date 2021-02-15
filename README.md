@@ -10,7 +10,7 @@ On this branch you can see the starting code for the exercise.
 - Keys are under `Home` -> `get your api keys`
 - Clone this repo
   ```sh
-  $ git clone
+  $ git clone https://github.com/upleveled/api-lecture-stripe-next-app-jan2021.git
   ```
 - Install dependencies
   ```sh
