@@ -32,7 +32,7 @@ export default function Success(props) {
 
 export async function getServerSideProps(ctx) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const Stripe = require('stripe');
+  const { Stripe } = await import('stripe');
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
 
   const { session_id: sessionId } = ctx.query;

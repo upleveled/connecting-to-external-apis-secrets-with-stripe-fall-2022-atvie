@@ -41,7 +41,7 @@ export default function Home(props) {
 
 export async function getServerSideProps() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const Stripe = require('stripe');
+  const { Stripe } = await import('stripe');
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
   const publicKey = process.env.STRIPE_PUBLISHABLE_KEY;
 
