@@ -16,6 +16,7 @@
 /build
 
 # misc
+internalLectureGuide.md
 .DS_Store
 *.pem
 
