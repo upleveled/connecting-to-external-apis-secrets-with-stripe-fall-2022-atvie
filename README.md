@@ -29,6 +29,7 @@ Happy coding!
 # api links
 
 - https://stripe.com/docs/api
+- https://stripe.com/docs/js
 
 # Test card numbers:
 
