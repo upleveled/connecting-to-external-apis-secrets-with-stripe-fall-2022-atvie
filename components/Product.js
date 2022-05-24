@@ -10,7 +10,7 @@ export default function Product(props) {
       <div>
         <img
           alt="Random asset from Picsum"
-          src={props.image || 'https://picsum.photos/200'}
+          src={props.image || '/images/no-image.png'}
         />
         <Counter
           count={props.productQuantity}

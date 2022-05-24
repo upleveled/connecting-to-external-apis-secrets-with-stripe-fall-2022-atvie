@@ -5,7 +5,7 @@ export default function Subscription(props) {
       <p>
         This is a recurring payment <span>product</span>.
       </p>
-      <img alt="magazine" src={props.image || 'https://picsum.photos/300'} />
+      <img alt="magazine" src={props.image || '/images/no-image.png'} />
     </>
   );
 }
