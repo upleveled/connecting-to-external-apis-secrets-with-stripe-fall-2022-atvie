@@ -1,18 +1,25 @@
-export function Counter({ minValue = 1, currentValue, newValueSetter }) {
-  function addCounter() {
-    newValueSetter(currentValue + 1);
-  }
-  function subtractCounter() {
-    if (currentValue === minValue) {
-      return;
-    }
-    newValueSetter(currentValue - 1);
-  }
+export function Counter({ count, setCount }) {
   return (
     <>
-      <button onClick={subtractCounter}>-</button>
-      <span>{currentValue}</span>
-      <button onClick={addCounter}>+</button>
+      <button
+        onClick={() => {
+          if (count <= 1) {
+            setCount(1);
+          } else {
+            setCount(count - 1);
+          }
+        }}
+      >
+        -
+      </button>
+      <span>{count}</span>
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        +
+      </button>
     </>
   );
 }
