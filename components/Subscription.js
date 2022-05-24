@@ -1,11 +1,11 @@
-export default function Subscription() {
+export default function Subscription(props) {
   return (
     <>
       <h1>Subscription Plan</h1>
       <p>
         This is a recurring payment <span>product</span>.
       </p>
-      <img alt="magazine" src="https://picsum.photos/300" />
+      <img alt="magazine" src={props.image || 'https://picsum.photos/300'} />
     </>
   );
 }

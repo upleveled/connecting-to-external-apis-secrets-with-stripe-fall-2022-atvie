@@ -8,7 +8,10 @@ export default function Product(props) {
         This is a one time payment <span>product</span>.
       </p>
       <div>
-        <img alt="Random asset from Picsum" src="https://picsum.photos/200" />
+        <img
+          alt="Random asset from Picsum"
+          src={props.image || 'https://picsum.photos/200'}
+        />
         <Counter
           count={props.productQuantity}
           setCount={props.setProductQuantity}
