@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import stripe from 'stripe';
 
 export default function Success(props) {
   return (
@@ -31,9 +32,7 @@ export default function Success(props) {
 }
 
 export async function getServerSideProps(ctx) {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { Stripe } = await import('stripe');
-  const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripeServer = stripe(process.env.STRIPE_SECRET_KEY);
 
   const { session_id: sessionId } = ctx.query;
   const session = await stripeServer.checkout.sessions.retrieve(sessionId);
