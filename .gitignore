@@ -19,6 +19,7 @@
 internalLectureGuide.md
 .DS_Store
 *.pem
+internalLectureGuide.md
 
 # debug
 npm-debug.log*

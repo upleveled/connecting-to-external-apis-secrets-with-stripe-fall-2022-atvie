@@ -1,40 +1,35 @@
-import { loadStripe } from '@stripe/stripe-js';
-import { Product } from '../components/Product';
-import { Subscription } from '../components/Subscription';
+import { useState } from 'react';
+import { Counter } from '../components/Counter';
 
 export default function Home(props) {
-  const stripeLoader = loadStripe(props.publicKey);
-
-  async function handleClick(mode, priceID, quantity = 1) {
-    const stripeClient = await stripeLoader;
-
-    const { sessionId } = await fetch('api/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        quantity,
-        mode,
-        priceID,
-      }),
-    }).then((res) => res.json());
-
-    stripeClient.redirectToCheckout({
-      sessionId,
-    });
-  }
+  const [productQuantity, setProductQuantity] = useState(1);
 
   return (
     <div>
-      <Product
-        clickHandler={handleClick}
-        productPrice={props.productPrices[0]}
-      />
-      <Subscription
-        clickHandler={handleClick}
-        productPrice={props.productPrices[1]}
-      />
+      <div>
+        <h1>Nice Product</h1>
+        <p>
+          This is a one time payment <span>product</span>.
+        </p>
+        <div>
+          <img
+            alt="Random asset from Picsum"
+            src={props.image || '/images/no-image.png'}
+          />
+          <Counter count={productQuantity} setCount={setProductQuantity} />
+        </div>
+        {/* fix this */}
+        <button>Buy for XX - FIX ME</button>
+      </div>
+      <div>
+        <h1>Subscription Plan</h1>
+        <p>
+          This is a recurring payment <span>product</span>.
+        </p>
+        <img alt="magazine" src={props.image || '/images/no-image.png'} />
+        {/* fix this */}
+        <button>Buy for XX - FIX ME</button>
+      </div>
     </div>
   );
 }
