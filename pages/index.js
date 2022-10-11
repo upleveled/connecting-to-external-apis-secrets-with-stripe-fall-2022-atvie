@@ -1,62 +1,96 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
+import stripe from 'stripe';
 import { Counter } from '../components/Counter';
 
 export default function Home(props) {
   const [productQuantity, setProductQuantity] = useState(1);
+  const router = useRouter();
+
+  async function clickHandler(quantity, priceId, mode) {
+    const response = await fetch('/api/sessions', {
+      method: 'POST',
+      headers: {
+        'content-type': ' application/json',
+      },
+      body: JSON.stringify({
+        quantity: quantity,
+        priceId: priceId,
+        mode: mode,
+      }),
+    });
+
+    const data = await response.json();
+
+    router.push(data.session.url);
+  }
 
   return (
     <div>
       <div>
         <h1>Nice Product</h1>
-        <p>
-          This is a one time payment <span>product</span>.
-        </p>
+        <p>{props.tablet.product.description}</p>
         <div>
           <img
             alt="Random asset from Picsum"
-            src={props.image || '/images/no-image.png'}
+            src={props.tablet.product.images[0] || '/images/no-image.png'}
           />
           <Counter count={productQuantity} setCount={setProductQuantity} />
         </div>
         {/* fix this */}
-        <button>Buy for XX - FIX ME</button>
+        <button
+          onClick={() =>
+            clickHandler(productQuantity, props.tablet.price.id, 'payment')
+          }
+        >
+          Buy for ${(props.tablet.price.unit_amount / 100) * productQuantity}
+        </button>
       </div>
       <div>
         <h1>Subscription Plan</h1>
-        <p>
-          This is a recurring payment <span>product</span>.
-        </p>
-        <img alt="magazine" src={props.image || '/images/no-image.png'} />
+        <p>{props.magazine.product.description}</p>
+        <img
+          alt="magazine"
+          src={props.magazine.product.images[0] || '/images/no-image.png'}
+        />
         {/* fix this */}
-        <button>Buy for XX - FIX ME</button>
+        <button
+          onClick={() =>
+            clickHandler(1, props.magazine.price.id, 'subscription')
+          }
+        >
+          Buy for ${props.magazine.price.unit_amount / 100}
+        </button>
       </div>
     </div>
   );
 }
 
 export async function getServerSideProps() {
-  const stripe = await import('stripe');
-  const stripeServer = stripe.default(process.env.STRIPE_SECRET_KEY);
-  const publicKey = process.env.STRIPE_PUBLISHABLE_KEY;
+  // Use SDK to connect to stripe using my SECRET
+  const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
 
-  const price = await stripeServer.prices.retrieve(process.env.PRICE);
-  const price2 = await stripeServer.prices.retrieve(process.env.PRICE2);
+  const tabletPrice = await stripeClient.prices.retrieve(
+    process.env.TABLET_PRICE,
+  );
+  const magazinePrice = await stripeClient.prices.retrieve(
+    process.env.MAGAZINE_PRICE,
+  );
+
+  const tablet = await stripeClient.products.retrieve(tabletPrice.product);
+
+  const magazine = await stripeClient.products.retrieve(magazinePrice.product);
 
   return {
     props: {
-      publicKey,
-      productPrices: [
-        {
-          priceId: 'PRICE',
-          unitAmount: price.unit_amount,
-          currency: price.currency,
-        },
-        {
-          priceId: 'PRICE2',
-          unitAmount: price2.unit_amount,
-          currency: price2.currency,
-        },
-      ],
+      tablet: {
+        price: tabletPrice,
+        product: tablet,
+      },
+      magazine: {
+        price: magazinePrice,
+        product: magazine,
+      },
     },
   };
 }
