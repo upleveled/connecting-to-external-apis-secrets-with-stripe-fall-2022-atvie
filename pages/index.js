@@ -33,3 +33,30 @@ export default function Home(props) {
     </div>
   );
 }
+
+export async function getServerSideProps() {
+  const stripe = await import('stripe');
+  const stripeServer = stripe.default(process.env.STRIPE_SECRET_KEY);
+  const publicKey = process.env.STRIPE_PUBLISHABLE_KEY;
+
+  const price = await stripeServer.prices.retrieve(process.env.PRICE);
+  const price2 = await stripeServer.prices.retrieve(process.env.PRICE2);
+
+  return {
+    props: {
+      publicKey,
+      productPrices: [
+        {
+          priceId: 'PRICE',
+          unitAmount: price.unit_amount,
+          currency: price.currency,
+        },
+        {
+          priceId: 'PRICE2',
+          unitAmount: price2.unit_amount,
+          currency: price2.currency,
+        },
+      ],
+    },
+  };
+}
