@@ -1,4 +1,11 @@
-export function Counter({ count, setCount }) {
+import { Dispatch, SetStateAction } from 'react';
+
+type Props = {
+  count: number;
+  setCount: Dispatch<SetStateAction<number>>;
+};
+
+export function Counter({ count, setCount }: Props) {
   return (
     <>
       <button

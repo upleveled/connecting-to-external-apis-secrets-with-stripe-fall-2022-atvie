@@ -1,7 +1,10 @@
+import { GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
-import stripe from 'stripe';
+import Stripe from 'stripe';
 
-export default function Success(props) {
+type Props = { session: Stripe.Checkout.Session };
+
+export default function Success(props: Props) {
   return (
     <section>
       <h1>Successful Transaction</h1>
@@ -17,7 +20,7 @@ export default function Success(props) {
         </p>
         <p>
           <span> Customer email:</span> {'   '}
-          {props.session.customer_details.email}
+          {props.session.customer_details?.email || 'No email provided'}
         </p>
         <p>
           <span> Payment status:</span> {'   '}
@@ -31,11 +34,16 @@ export default function Success(props) {
   );
 }
 
-export async function getServerSideProps(ctx) {
-  const stripeServer = stripe(process.env.STRIPE_SECRET_KEY);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  // Use SDK to connect to stripe using my SECRET
+  const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2022-08-01',
+  });
+  const { session_id: sessionId } = context.query;
 
-  const { session_id: sessionId } = ctx.query;
-  const session = await stripeServer.checkout.sessions.retrieve(sessionId);
+  const session = await stripeClient.checkout.sessions.retrieve(
+    sessionId as string,
+  );
 
   return { props: { session } };
 }

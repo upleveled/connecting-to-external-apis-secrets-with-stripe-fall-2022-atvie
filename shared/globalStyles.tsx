@@ -193,10 +193,10 @@ const myGlobalStyles = css`
   }
 
   .error {
-    h1 {
-      color: #da0e46;
-      text-align: center;
-    }
+    color: #da0e46;
+    text-align: center;
+    padding: 5px;
+    border-radius: 3px;
     background-color: #f9caca;
   }
 

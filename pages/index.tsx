@@ -1,13 +1,28 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import stripe from 'stripe';
+import Stripe from 'stripe';
 import { Counter } from '../components/Counter';
+import { EndpointResponse, StripeSession } from './api/sessions';
 
-export default function Home(props) {
+type Product = {
+  price: Stripe.Price;
+  product: Stripe.Product;
+};
+
+type Props = {
+  tablet: Product;
+  magazine: Product;
+};
+export default function Home(props: Props) {
   const [productQuantity, setProductQuantity] = useState(1);
+  const [error, setError] = useState<{ error: string }>();
   const router = useRouter();
 
-  async function clickHandler(quantity, priceId, mode) {
+  async function clickHandler(
+    quantity: number,
+    priceId: Stripe.Price['id'],
+    mode: StripeSession['mode'],
+  ) {
     const response = await fetch('/api/sessions', {
       method: 'POST',
       headers: {
@@ -20,13 +35,26 @@ export default function Home(props) {
       }),
     });
 
-    const data = await response.json();
+    const data: EndpointResponse = await response.json();
+
+    if ('error' in data) {
+      return setError(data);
+    }
+
+    if (!data.session.url) {
+      return setError({ error: 'Checkout URL not found' });
+    }
+
+    if (!data.session.url) {
+      return setError({ error: 'Checkout Session Creation Failed' });
+    }
 
     router.push(data.session.url);
   }
 
   return (
     <div>
+      {error && <strong className="error">{error.error}</strong>}
       <div>
         <h1>Nice Product</h1>
         <p>{props.tablet.product.description}</p>
@@ -43,7 +71,7 @@ export default function Home(props) {
             clickHandler(productQuantity, props.tablet.price.id, 'payment')
           }
         >
-          Buy for ${(props.tablet.price.unit_amount / 100) * productQuantity}
+          Buy for ${(props.tablet.price.unit_amount! / 100) * productQuantity}
         </button>
       </div>
       <div>
@@ -59,7 +87,7 @@ export default function Home(props) {
             clickHandler(1, props.magazine.price.id, 'subscription')
           }
         >
-          Buy for ${props.magazine.price.unit_amount / 100}
+          Buy for ${props.magazine.price.unit_amount! / 100}
         </button>
       </div>
     </div>
@@ -68,18 +96,23 @@ export default function Home(props) {
 
 export async function getServerSideProps() {
   // Use SDK to connect to stripe using my SECRET
-  const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
+  const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2022-08-01',
+  });
+  // const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
+
+  const tablet = await stripeClient.products.retrieve(process.env.TABLET_ID!);
 
   const tabletPrice = await stripeClient.prices.retrieve(
-    process.env.TABLET_PRICE,
+    tablet.default_price as string,
+  );
+
+  const magazine = await stripeClient.products.retrieve(
+    process.env.MAGAZINE_ID!,
   );
   const magazinePrice = await stripeClient.prices.retrieve(
-    process.env.MAGAZINE_PRICE,
+    magazine.default_price as string,
   );
-
-  const tablet = await stripeClient.products.retrieve(tabletPrice.product);
-
-  const magazine = await stripeClient.products.retrieve(magazinePrice.product);
 
   return {
     props: {
