@@ -1,15 +1,48 @@
 import { css } from '@emotion/react';
-import { reset } from './resetCss';
 
-const mainColor = 'black';
-const secondaryColor = '#0075d4';
+const mainColor = '#242424';
+const secondaryColor = '#ff3393';
 const fontSizes = {
   big: '40px',
   medium: '20px',
 };
 
 export const globalStyles = css`
-  ${reset}
+  html {
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ol,
+  ul {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+  }
+
+  ol,
+  ul {
+    list-style: none;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 
   * {
     border-radius: 5px;
@@ -78,33 +111,6 @@ export const globalStyles = css`
     }
   }
 
-  .productContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: space-around;
-    margin: 50px auto;
-    width: 90vw;
-
-    .product {
-      align-items: center;
-      background-color: #e2e2e2;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      justify-content: space-between;
-      padding: 20px 40px;
-
-      p {
-        text-align: center;
-      }
-
-      h1 {
-        align-self: start;
-      }
-    }
-  }
-
   button {
     background-color: ${secondaryColor};
     border-radius: 25px;
@@ -144,5 +150,32 @@ export const globalStyles = css`
   .error {
     background-color: #f9caca;
     color: #da0e46;
+  }
+
+  .productContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-around;
+    margin: 50px auto;
+    width: 90vw;
+
+    .product {
+      align-items: center;
+      background-color: #e2e2e2;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      justify-content: space-between;
+      padding: 20px 40px;
+
+      p {
+        text-align: center;
+      }
+
+      h1 {
+        align-self: start;
+      }
+    }
   }
 `;
