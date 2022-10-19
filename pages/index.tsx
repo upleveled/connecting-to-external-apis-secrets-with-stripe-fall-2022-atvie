@@ -53,19 +53,16 @@ export default function Home(props: Props) {
   }
 
   return (
-    <div>
+    <div className="productContainer">
       {error && <strong className="error">{error.error}</strong>}
-      <div>
+      <div className="product">
         <h1>Nice Product</h1>
+        <img
+          alt="Random asset from Picsum"
+          src={props.tablet.product.images[0] || '/images/no-image.png'}
+        />
         <p>{props.tablet.product.description}</p>
-        <div>
-          <img
-            alt="Random asset from Picsum"
-            src={props.tablet.product.images[0] || '/images/no-image.png'}
-          />
-          <Counter count={productQuantity} setCount={setProductQuantity} />
-        </div>
-        {/* fix this */}
+        <Counter count={productQuantity} setCount={setProductQuantity} />
         <button
           onClick={() =>
             clickHandler(productQuantity, props.tablet.price.id, 'payment')
@@ -74,14 +71,14 @@ export default function Home(props: Props) {
           Buy for ${(props.tablet.price.unit_amount! / 100) * productQuantity}
         </button>
       </div>
-      <div>
+
+      <div className="product">
         <h1>Subscription Plan</h1>
-        <p>{props.magazine.product.description}</p>
         <img
           alt="magazine"
           src={props.magazine.product.images[0] || '/images/no-image.png'}
         />
-        {/* fix this */}
+        <p>{props.magazine.product.description}</p>
         <button
           onClick={() =>
             clickHandler(1, props.magazine.price.id, 'subscription')

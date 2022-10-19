@@ -1,74 +1,44 @@
-import { css, Global } from '@emotion/react';
-import Head from 'next/head';
-
-const reset = css`
-  html {
-    box-sizing: border-box;
-    font-size: 16px;
-  }
-
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-  }
-
-  body,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  ol,
-  ul {
-    margin: 0;
-    padding: 0;
-    font-weight: normal;
-  }
-
-  ol,
-  ul {
-    list-style: none;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-`;
+import { css } from '@emotion/react';
+import { reset } from './resetCss';
 
 const mainColor = 'black';
 const secondaryColor = '#0075d4';
+const fontSizes = {
+  big: '40px',
+  medium: '20px',
+};
 
-const myGlobalStyles = css`
+export const globalStyles = css`
   ${reset}
 
+  * {
+    border-radius: 5px;
+  }
+
   @font-face {
+    src: url('fonts/catamaran/catamaran bold.ttf');
     font-family: 'UpLeveled heading font';
     font-style: bold;
     font-weight: 800;
-    src: url('fonts/catamaran/catamaran bold.ttf');
   }
 
   @font-face {
+    src: url('fonts/bitstream/VeraMono.ttf');
     font-family: 'UpLeveled body';
     font-style: normal;
-    src: url('fonts/bitstream/VeraMono.ttf');
   }
 
   @font-face {
+    src: url('fonts/bitstream/VeraMono-Bold.ttf');
     font-family: 'UpLeveled span';
     font-style: bold;
-    src: url('fonts/bitstream/VeraMono-Bold.ttf');
   }
 
   body {
     font-family: 'UpLeveled body', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;
-    font-size: 20px;
+    font-size: ${fontSizes.medium};
     font-style: normal;
     color: #444;
   }
@@ -79,82 +49,54 @@ const myGlobalStyles = css`
       'Helvetica Neue', sans-serif;
     color: #1a1a1a;
     font-style: bold;
+
+    &.counter-span {
+      margin: 0 100px;
+    }
   }
 
   h1 {
     font-family: 'UpLeveled heading font', -apple-system, BlinkMacSystemFont,
       'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;
-
-    font-size: 2em;
+    font-size: ${fontSizes.big};
+    text-align: center;
     color: ${mainColor};
   }
 
   header {
-    margin-bottom: 10px;
     img {
       padding: 5px 10px;
-      box-shadow: none;
       margin: 2vw 15vw;
     }
   }
 
   img {
-    border-radius: 5px;
-    box-shadow: 3px 3px #707070;
     width: 15vw;
-
     @media (max-width: 1100px) {
       width: 40vw;
     }
   }
 
-  #__next > div {
-    width: 90vw;
-    min-height: 80vh;
-    margin: 0 auto;
+  .productContainer {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-around;
     gap: 5px;
+    justify-content: space-around;
+    margin: 50px auto;
+    width: 90vw;
 
-    div {
+    .product {
+      align-items: center;
       background-color: #e2e2e2;
-      border-radius: 5px;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      gap: 15px;
       justify-content: space-between;
-      gap: 5px;
-      min-height: 55vh;
       padding: 20px 40px;
 
       p {
         text-align: center;
-      }
-
-      div {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        padding: 0;
-        min-height: auto;
-        border: none;
-        text-align: center;
-        justify-items: center;
-
-        img {
-          margin-bottom: 10px;
-          grid-column: span 3;
-          background-color: white;
-        }
-        span {
-          margin: 0;
-        }
-        button {
-          width: 2em;
-          align-self: center;
-        }
       }
 
       h1 {
@@ -163,53 +105,16 @@ const myGlobalStyles = css`
     }
   }
 
-  section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #d1f8cb;
-    width: 80vw;
-    margin: 0 auto;
-    min-height: 70vh;
-    border-radius: 5px;
-
-    h1 {
-      color: #32a354;
-      text-align: center;
-    }
-
-    h1,
-    a {
-      align-self: center;
-    }
-
-    div {
-      word-wrap: break-word;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 10vw;
-    }
-  }
-
-  .error {
-    color: #da0e46;
-    text-align: center;
-    padding: 5px;
-    border-radius: 3px;
-    background-color: #f9caca;
-  }
-
   button {
     background-color: ${secondaryColor};
-    padding: 0.5em;
-    border-radius: 5px;
+    border-radius: 25px;
     border: none;
     color: white;
-    font-size: 1em;
-    width: 25em;
-    max-width: 80vw;
     cursor: pointer;
+    font-size: ${fontSizes.medium};
+    max-width: 80vw;
+    padding: 0.5em;
+    width: 25em;
 
     &:active {
       transform: scale(1.05);
@@ -217,15 +122,27 @@ const myGlobalStyles = css`
     &:hover {
       opacity: 0.95;
     }
+
+    &.counter-button {
+      align-self: center;
+      width: 2em;
+    }
+  }
+
+  section {
+    align-items: center;
+    background-color: #d1f8cb;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    margin: 0 auto;
+    min-height: 20vw;
+    width: 90vw;
+  }
+
+  .error {
+    background-color: #f9caca;
+    color: #da0e46;
   }
 `;
-
-export const globalStyles = (
-  <>
-    <Global styles={myGlobalStyles} />
-    <Head>
-      <title>UpLeveled - stripe</title>
-      <link rel="icon" href="/images/logo.png" />
-    </Head>
-  </>
-);

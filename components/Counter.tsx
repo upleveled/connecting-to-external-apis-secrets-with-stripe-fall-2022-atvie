@@ -7,8 +7,9 @@ type Props = {
 
 export function Counter({ count, setCount }: Props) {
   return (
-    <>
+    <div>
       <button
+        className="counter-button"
         onClick={() => {
           if (count <= 1) {
             setCount(1);
@@ -19,14 +20,15 @@ export function Counter({ count, setCount }: Props) {
       >
         -
       </button>
-      <span>{count}</span>
+      <span className="counter-span">{count}</span>
       <button
+        className="counter-button"
         onClick={() => {
           setCount(count + 1);
         }}
       >
         +
       </button>
-    </>
+    </div>
   );
 }
