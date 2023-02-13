@@ -20,9 +20,9 @@ export default async function handler(
   }
 
   // Url to return on payment success
-  const successUrl = `http://${request.headers.host}/success`;
+  const successUrl = `https://${request.headers.host}/success`;
   // Url to return on payment cancel
-  const cancelUrl = `http://${request.headers.host}/canceled`;
+  const cancelUrl = `https://${request.headers.host}/canceled`;
 
   // get the data from the body of the request
   try {

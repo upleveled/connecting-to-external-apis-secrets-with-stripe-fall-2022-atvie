@@ -8,5 +8,5 @@ export default async function handler(
 ) {
   response
     .status(200)
-    .json({ sessions: `http://${request.headers.host}/api/sessions` });
+    .json({ sessions: `https://${request.headers.host}/api/sessions` });
 }
