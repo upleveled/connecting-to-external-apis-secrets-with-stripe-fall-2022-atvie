@@ -8,7 +8,7 @@ import { Counter } from './Counter';
 import styles from './Products.module.scss';
 
 type Product = {
-  price: Pick<Stripe.Price, 'id' | 'type' | 'unit_amount'>;
+  price: Pick<Stripe.Price, 'id' | 'type'> & { unitAmount: number };
   images: Stripe.Product['images'];
   description: Stripe.Product['description'];
 };
@@ -63,7 +63,7 @@ export default function Products(props: Props) {
             await createSession(props.tablet.price, productQuantity)
           }
         >
-          Buy for ${(props.tablet.price.unit_amount! / 100) * productQuantity}
+          Buy for ${(props.tablet.price.unitAmount / 100) * productQuantity}
         </button>
       </div>
 
@@ -77,7 +77,7 @@ export default function Products(props: Props) {
         />
         <p>{props.magazine.description}</p>
         <button onClick={async () => await createSession(props.magazine.price)}>
-          Buy for ${props.magazine.price.unit_amount! / 100}
+          Buy for ${props.magazine.price.unitAmount / 100}
         </button>
       </div>
     </div>

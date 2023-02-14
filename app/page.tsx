@@ -16,13 +16,17 @@ export default async function HomePage() {
     magazine.default_price as string,
   );
 
+  if (!tabletPrice.unit_amount || !magazinePrice.unit_amount) {
+    throw new Error('Invalid Product Price');
+  }
+
   return (
     <Products
       tablet={{
         price: {
           id: tabletPrice.id,
           type: tabletPrice.type,
-          unit_amount: tabletPrice.unit_amount,
+          unitAmount: tabletPrice.unit_amount,
         },
         images: tablet.images,
         description: tablet.description,
@@ -31,7 +35,7 @@ export default async function HomePage() {
         price: {
           id: magazinePrice.id,
           type: magazinePrice.type,
-          unit_amount: magazinePrice.unit_amount,
+          unitAmount: magazinePrice.unit_amount,
         },
         images: magazine.images,
         description: magazine.description,
