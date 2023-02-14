@@ -39,7 +39,6 @@ img {
 *:before,
 *:after {
   box-sizing: inherit;
-  border-radius: 5px;
 }
 
 @font-face {
@@ -76,10 +75,6 @@ span {
     'Helvetica Neue', sans-serif;
   color: #1a1a1a;
   font-style: bold;
-
-  &.counter-span {
-    margin: 0 100px;
-  }
 }
 
 h1 {
@@ -122,11 +117,6 @@ button {
   &:hover {
     opacity: 0.95;
   }
-
-  &.counter-button {
-    align-self: center;
-    width: 2em;
-  }
 }
 
 section {
@@ -139,36 +129,4 @@ section {
   margin: 0 auto;
   min-height: 20vw;
   width: 90vw;
-}
-
-.error {
-  background-color: #f9caca;
-  color: #da0e46;
-}
-
-.productContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  justify-content: space-around;
-  margin: 50px auto;
-  width: 90vw;
-
-  .product {
-    align-items: center;
-    background-color: #e2e2e2;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    justify-content: space-between;
-    padding: 20px 40px;
-
-    p {
-      text-align: center;
-    }
-
-    h1 {
-      align-self: start;
-    }
-  }
 }

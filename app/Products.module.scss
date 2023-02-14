@@ -1,0 +1,36 @@
+.error {
+  background-color: #f9caca;
+  color: #da0e46;
+}
+
+.productContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: space-around;
+  margin: 50px auto;
+  width: 90vw;
+
+  .product {
+    align-items: center;
+    background-color: #e2e2e2;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
+    padding: 20px 40px;
+
+    img {
+      border-radius: 25px;
+    }
+
+    p {
+      text-align: center;
+    }
+
+    h1 {
+      align-self: start;
+    }
+  }
+}

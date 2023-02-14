@@ -1,12 +1,13 @@
 import Link from 'next/link';
+import styles from './page.module.scss';
 
-export default function Canceled() {
+export const metadata = { title: 'Canceled', description: 'Canceled Page' };
+
+export default function CanceledPage() {
   return (
-    <section className="error">
+    <section className={styles.error}>
       <h1>Failed Transaction</h1>
-      <Link href="/">
-        <a>home</a>
-      </Link>
+      <Link href="/">home</Link>
     </section>
   );
 }

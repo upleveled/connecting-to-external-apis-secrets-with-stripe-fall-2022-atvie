@@ -1,15 +1,10 @@
 // add api code here
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
+import { stripeClient } from '../../utils/client';
 
-export type StripeSession = Stripe.Checkout.Session;
+export type StripeSession = Stripe.Checkout.Session & { url: string };
 export type EndpointResponse = { session: StripeSession } | { error: string };
-
-// 1. connect with stripe
-// auth with stripe
-const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2022-08-01',
-});
 
 export default async function handler(
   request: NextApiRequest,
@@ -20,22 +15,27 @@ export default async function handler(
   }
 
   // Url to return on payment success
-  const successUrl = `https://${request.headers.host}/success`;
+  const successUrl = `http://${request.headers.host}/success`;
   // Url to return on payment cancel
-  const cancelUrl = `https://${request.headers.host}/canceled`;
+  const cancelUrl = `http://${request.headers.host}/canceled`;
 
   // get the data from the body of the request
   try {
-    const session: StripeSession = await stripeClient.checkout.sessions.create({
+    const session = await stripeClient.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: request.body.mode,
       line_items: [
         { price: request.body.priceId, quantity: request.body.quantity },
       ],
-      success_url: successUrl + '?session_id={CHECKOUT_SESSION_ID}',
+      success_url: successUrl + '?sessionId={CHECKOUT_SESSION_ID}',
       cancel_url: cancelUrl,
     });
-    response.status(200).json({ session: session });
+
+    if (!session.url) {
+      return response.status(400).json({ error: 'Invalid Session URL' });
+    }
+
+    response.status(200).json({ session: { ...session, url: session.url } });
   } catch (err) {
     const error = err as Stripe.errors.StripeAPIError;
     return response.status(400).json({ error: error.message });

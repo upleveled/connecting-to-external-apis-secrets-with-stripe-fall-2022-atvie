@@ -1,7 +1,8 @@
 import './global.scss';
+import Image from 'next/image';
 
 export const metadata = {
-  title: 'UpLeveled - stripe',
+  title: { default: 'UpLeveled - Stripe', template: '%s | UpLeveled Stripe' },
   icons: {
     shortcut: '/images/logo.png',
   },
@@ -13,11 +14,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ENG">
+    <html lang="en">
       <head />
       <body>
         <header>
-          <img src="/images/logo.svg" alt="UpLeveled" />
+          <Image
+            src="/images/logo.svg"
+            alt="UpLeveled"
+            width={476}
+            height={155}
+          />
         </header>
         {children}
       </body>
