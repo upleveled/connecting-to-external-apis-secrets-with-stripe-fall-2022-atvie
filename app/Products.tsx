@@ -1,13 +1,12 @@
 'use client';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Stripe from 'stripe';
 import { SessionsResponseBody } from './api/sessions/route';
 import styles from './Products.module.scss';
 
 type Product = {
-  price: Pick<Stripe.Price, 'id' | 'type' | 'unit_amount'>;
+  price: Pick<Stripe.Price, 'id' | 'type' | 'unit_amount'> | null;
   images: Stripe.Product['images'];
   description: Stripe.Product['description'];
 };
@@ -20,9 +19,10 @@ type Props = {
 export default function Products(props: Props) {
   const [productQuantity, setProductQuantity] = useState(1);
   const [error, setError] = useState<string>();
-  const router = useRouter();
 
   async function createSession(price: Product['price'], quantity: number = 1) {
+    if (!price) return;
+
     const response = await fetch('/api/sessions', {
       method: 'POST',
       headers: {
@@ -41,12 +41,21 @@ export default function Products(props: Props) {
       return setError(data.error);
     }
 
-    router.push(data.session.url);
+    document.location.href = data.session.url;
   }
+
+  if (!props.tablet.price || !props.magazine.price) {
+    return (
+      <strong className={styles.error}>
+        All products must have a valid price
+      </strong>
+    );
+  }
+
+  if (error) return <strong className={styles.error}>{error}</strong>;
 
   return (
     <div className={styles.productContainer}>
-      {error && <strong className={styles.error}>{error}</strong>}
       <div className={styles.product}>
         <h1>Nice Tablet</h1>
         <Image

@@ -4,35 +4,40 @@ import Products from './Products';
 export const metadata = { description: 'Products Page' };
 
 export default async function HomePage() {
-  const tablet = await stripeClient.products.retrieve(process.env.TABLET_ID!);
   const magazine = await stripeClient.products.retrieve(
     process.env.MAGAZINE_ID!,
+    {
+      expand: ['default_price'],
+    },
   );
 
-  const tabletPrice = await stripeClient.prices.retrieve(
-    tablet.default_price as string,
-  );
-  const magazinePrice = await stripeClient.prices.retrieve(
-    magazine.default_price as string,
-  );
+  const tablet = await stripeClient.products.retrieve(process.env.TABLET_ID!, {
+    expand: ['default_price'],
+  });
 
   return (
     <Products
       tablet={{
-        price: {
-          id: tabletPrice.id,
-          type: tabletPrice.type,
-          unit_amount: tabletPrice.unit_amount,
-        },
+        price:
+          tablet.default_price instanceof Object
+            ? {
+                id: tablet.default_price.id,
+                type: tablet.default_price.type,
+                unit_amount: tablet.default_price.unit_amount,
+              }
+            : null,
         images: tablet.images,
         description: tablet.description,
       }}
       magazine={{
-        price: {
-          id: magazinePrice.id,
-          type: magazinePrice.type,
-          unit_amount: magazinePrice.unit_amount,
-        },
+        price:
+          magazine.default_price instanceof Object
+            ? {
+                id: magazine.default_price.id,
+                type: magazine.default_price.type,
+                unit_amount: magazine.default_price.unit_amount,
+              }
+            : null,
         images: magazine.images,
         description: magazine.description,
       }}
