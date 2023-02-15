@@ -41,6 +41,7 @@ img {
   box-sizing: inherit;
 }
 
+// TODO: please use @next/font/local be used for local fonts instead
 @font-face {
   src: url('../public/fonts/catamaran/catamaran bold.ttf');
   font-family: 'UpLeveled heading font';
@@ -48,12 +49,14 @@ img {
   font-weight: 800;
 }
 
+// TODO: please use @next/font/local be used for local fonts instead
 @font-face {
   src: url('../public/fonts/bitstream/VeraMono.ttf');
   font-family: 'UpLeveled body';
   font-style: normal;
 }
 
+// TODO: please use @next/font/local be used for local fonts instead
 @font-face {
   src: url('../public/fonts/bitstream/VeraMono-Bold.ttf');
   font-family: 'UpLeveled span';
