@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { stripeClient } from '../../../util/stripe';
 
@@ -30,18 +30,22 @@ export async function POST(request: NextRequest) {
     });
 
     if (!session.url) {
-      return new Response(JSON.stringify({ error: 'Invalid Session URL' }), {
-        status: 400,
-      });
+      return NextResponse.json(
+        { error: 'Invalid Session URL' },
+        {
+          status: 400,
+        },
+      );
     }
 
-    return new Response(
-      JSON.stringify({ session: { ...session, url: session.url } }),
-    );
+    return NextResponse.json({ session: { ...session, url: session.url } });
   } catch (err) {
     const error = err as Stripe.errors.StripeAPIError;
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 200,
-    });
+    return NextResponse.json(
+      { error: error.message },
+      {
+        status: 400,
+      },
+    );
   }
 }
