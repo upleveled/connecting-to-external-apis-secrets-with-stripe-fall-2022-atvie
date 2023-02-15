@@ -3,10 +3,6 @@ import { NextRequest } from 'next/server';
 import Stripe from 'stripe';
 import { stripeClient } from '../../../util/stripe';
 
-// function createResponse<T>(body: T, options?: ResponseInit) {
-//   return new Response(JSON.stringify(body), options);
-// }
-
 export type StripeSession = Stripe.Checkout.Session & { url: string };
 
 export type SessionsResponseBody =

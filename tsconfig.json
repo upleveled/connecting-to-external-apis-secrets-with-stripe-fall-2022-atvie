@@ -1,43 +1,15 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "UpLeveled Node + React TSConfig",
-  "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "module": "esnext",
-    "target": "es2015",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "downlevelIteration": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "preserve",
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "incremental": true
-  },
+  "extends": "@upleveled/eslint-config-upleveled/tsconfig.base.json",
   "include": [
-    "next-env.d.ts",
+    "**/.eslintrc.cjs",
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "build"
+    "**/*.jsx",
+    "**/*.cjs",
+    "**/*.mjs",
+    ".next/types/**/*.ts",
+    "next-env.d.ts"
   ]
 }
