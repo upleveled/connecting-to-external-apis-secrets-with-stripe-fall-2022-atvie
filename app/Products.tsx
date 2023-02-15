@@ -6,7 +6,7 @@ import { SessionsResponseBody } from './api/sessions/route';
 import styles from './Products.module.scss';
 
 type Product = {
-  price: Pick<Stripe.Price, 'id' | 'type' | 'unit_amount'> | null;
+  price: Pick<Stripe.Price, 'id' | 'type' | 'unit_amount'> ;
   images: Stripe.Product['images'];
   description: Stripe.Product['description'];
 };
@@ -21,7 +21,6 @@ export default function Products(props: Props) {
   const [error, setError] = useState<string>();
 
   async function createSession(price: Product['price'], quantity: number = 1) {
-    if (!price) return;
 
     const response = await fetch('/api/sessions', {
       method: 'POST',
@@ -42,14 +41,6 @@ export default function Products(props: Props) {
     }
 
     document.location.href = data.session.url;
-  }
-
-  if (!props.tablet.price || !props.magazine.price) {
-    return (
-      <strong className={styles.error}>
-        All products must have a valid price
-      </strong>
-    );
   }
 
   if (error) return <strong className={styles.error}>{error}</strong>;

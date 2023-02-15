@@ -15,29 +15,31 @@ export default async function HomePage() {
     expand: ['default_price'],
   });
 
+  if (
+    !(tablet.default_price instanceof Object) ||
+    !(magazine.default_price instanceof Object)
+  ) {
+    return <strong>All products must contain a valid price</strong>;
+  }
+
   return (
     <Products
       tablet={{
-        price:
-          tablet.default_price instanceof Object
-            ? {
-                id: tablet.default_price.id,
-                type: tablet.default_price.type,
-                unit_amount: tablet.default_price.unit_amount,
-              }
-            : null,
+        price: {
+          id: tablet.default_price.id,
+          type: tablet.default_price.type,
+          unit_amount: tablet.default_price.unit_amount,
+        },
+
         images: tablet.images,
         description: tablet.description,
       }}
       magazine={{
-        price:
-          magazine.default_price instanceof Object
-            ? {
-                id: magazine.default_price.id,
-                type: magazine.default_price.type,
-                unit_amount: magazine.default_price.unit_amount,
-              }
-            : null,
+        price: {
+          id: magazine.default_price.id,
+          type: magazine.default_price.type,
+          unit_amount: magazine.default_price.unit_amount,
+        },
         images: magazine.images,
         description: magazine.description,
       }}
