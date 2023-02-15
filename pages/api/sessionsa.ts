@@ -1,7 +1,7 @@
 // add api code here
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
-import { stripeClient } from '../../utils/client';
+import { stripeClient } from '../../util/stripe';
 
 export type StripeSession = Stripe.Checkout.Session & { url: string };
 export type EndpointResponse = { session: StripeSession } | { error: string };

@@ -3,12 +3,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Stripe from 'stripe';
-import { EndpointResponse } from '../pages/api/sessions';
-import { Counter } from './Counter';
+import { SessionsResponseBody } from './api/sessions/route';
 import styles from './Products.module.scss';
 
 type Product = {
-  price: Pick<Stripe.Price, 'id' | 'type'> & { unitAmount: number };
+  price: Pick<Stripe.Price, 'id' | 'type' | 'unit_amount'>;
   images: Stripe.Product['images'];
   description: Stripe.Product['description'];
 };
@@ -27,7 +26,7 @@ export default function Products(props: Props) {
     const response = await fetch('/api/sessions', {
       method: 'POST',
       headers: {
-        'content-type': ' application/json',
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
         priceId: price.id,
@@ -36,7 +35,7 @@ export default function Products(props: Props) {
       }),
     });
 
-    const data: EndpointResponse = await response.json();
+    const data: SessionsResponseBody = await response.json();
 
     if ('error' in data) {
       return setError(data.error);
@@ -57,14 +56,38 @@ export default function Products(props: Props) {
           height={100}
         />
         <p>{props.tablet.description}</p>
-        <Counter count={productQuantity} setCount={setProductQuantity} />
-        <button
-          onClick={async () =>
-            await createSession(props.tablet.price, productQuantity)
-          }
-        >
-          Buy for ${(props.tablet.price.unitAmount / 100) * productQuantity}
-        </button>
+        <div>
+          <button
+            className={styles.counterButton}
+            onClick={() => {
+              setProductQuantity(
+                productQuantity <= 1 ? 1 : productQuantity - 1,
+              );
+            }}
+          >
+            -
+          </button>
+          <span className={styles.counterSpan}>{productQuantity}</span>
+          <button
+            className={styles.counterButton}
+            onClick={() => {
+              setProductQuantity(productQuantity + 1);
+            }}
+          >
+            +
+          </button>
+        </div>
+        {props.tablet.price.unit_amount ? (
+          <button
+            onClick={async () =>
+              await createSession(props.tablet.price, productQuantity)
+            }
+          >
+            Buy for ${(props.tablet.price.unit_amount / 100) * productQuantity}
+          </button>
+        ) : (
+          'out of stock'
+        )}
       </div>
 
       <div className={styles.product}>
@@ -76,9 +99,18 @@ export default function Products(props: Props) {
           height={100}
         />
         <p>{props.magazine.description}</p>
-        <button onClick={async () => await createSession(props.magazine.price)}>
-          Buy for ${props.magazine.price.unitAmount / 100}
-        </button>
+        {props.magazine.price.unit_amount ? (
+          <button
+            onClick={async () =>
+              await createSession(props.tablet.price, productQuantity)
+            }
+          >
+            Buy for $
+            {(props.magazine.price.unit_amount / 100) * productQuantity}
+          </button>
+        ) : (
+          'out of stock'
+        )}
       </div>
     </div>
   );

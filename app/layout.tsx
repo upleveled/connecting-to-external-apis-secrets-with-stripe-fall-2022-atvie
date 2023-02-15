@@ -1,5 +1,6 @@
 import './global.scss';
 import Image from 'next/image';
+import styles from './layout.module.scss';
 
 export const metadata = {
   title: { default: 'UpLeveled - Stripe', template: '%s | UpLeveled Stripe' },
@@ -17,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <head />
       <body>
-        <header>
+        <header className={styles.header}>
           <Image
             src="/images/logo.svg"
             alt="UpLeveled"

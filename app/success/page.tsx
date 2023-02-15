@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { stripeClient } from '../../utils/client';
+import { stripeClient } from '../../util/stripe';
 
 type Props = {
   searchParams: { sessionId: string };
@@ -15,7 +15,7 @@ export default async function SuccessPage({ searchParams }: Props) {
       searchParams.sessionId,
     );
   } catch {
-    return redirect('/');
+    redirect('/');
   }
 
   return (

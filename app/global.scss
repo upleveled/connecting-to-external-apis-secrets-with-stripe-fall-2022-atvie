@@ -86,20 +86,6 @@ h1 {
   color: var(--main-color);
 }
 
-header {
-  img {
-    padding: 5px 10px;
-    margin: 2vw 15vw;
-  }
-}
-
-img {
-  width: 15vw;
-  @media (max-width: 1100px) {
-    width: 40vw;
-  }
-}
-
 button {
   background-color: var(--secondary-color);
   border-radius: 25px;
@@ -115,18 +101,6 @@ button {
     transform: scale(1.05);
   }
   &:hover {
-    opacity: 0.95;
+    opacity: 0.8;
   }
-}
-
-section {
-  align-items: center;
-  background-color: #d1f8cb;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  justify-content: center;
-  margin: 0 auto;
-  min-height: 20vw;
-  width: 90vw;
 }

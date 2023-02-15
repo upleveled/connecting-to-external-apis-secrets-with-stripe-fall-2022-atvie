@@ -1,4 +1,4 @@
-import { stripeClient } from '../utils/client';
+import { stripeClient } from '../util/stripe';
 import Products from './Products';
 
 export const metadata = { description: 'Products Page' };
@@ -16,17 +16,13 @@ export default async function HomePage() {
     magazine.default_price as string,
   );
 
-  if (!tabletPrice.unit_amount || !magazinePrice.unit_amount) {
-    throw new Error('Invalid Product Price');
-  }
-
   return (
     <Products
       tablet={{
         price: {
           id: tabletPrice.id,
           type: tabletPrice.type,
-          unitAmount: tabletPrice.unit_amount,
+          unit_amount: tabletPrice.unit_amount,
         },
         images: tablet.images,
         description: tablet.description,
@@ -35,7 +31,7 @@ export default async function HomePage() {
         price: {
           id: magazinePrice.id,
           type: magazinePrice.type,
-          unitAmount: magazinePrice.unit_amount,
+          unit_amount: magazinePrice.unit_amount,
         },
         images: magazine.images,
         description: magazine.description,
